@@ -94,28 +94,9 @@ namespace Metro.Views
             }
         }
 
-        private void ZoomPlus_Click(object sender, RoutedEventArgs e)
-        {
-            st.ScaleX += 0.5;
-            st.ScaleY += 0.5;
-        }
-
-        private void ZoomMinus_Click(object sender, RoutedEventArgs e)
-        {
-            st.ScaleX -= 0.5;
-            st.ScaleY -= 0.5;
-        }
-
-        private void ZoomReset_Click(object sender, RoutedEventArgs e)
-        {
-            st.ScaleX = 1;
-            st.ScaleY = 1;
-        }
-
         private void cnvTerkep_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point pont = e.GetPosition(cnvTerkep);
-
             foreach (var allomas in viewModel.Allomasok)
             {
                 if (Math.Abs(allomas.X - pont.X) < 5 && Math.Abs(allomas.Y - pont.Y) < 5)

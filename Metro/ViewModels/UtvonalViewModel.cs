@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace Metro.ViewModels
 {
-    public class UtvonalViewModel : ObservableRecipient
+    public class UtvonalViewModel : ObservableObject
     {
         private readonly MetroRepository repository;
         public ObservableCollection<Allomas> Allomasok { get; }
@@ -102,7 +102,6 @@ namespace Metro.ViewModels
                                     UtvonalTerv.Add("az " + vegvonal + " vonalra");
                                 }
                             }
-
                         }
                     }
                 }

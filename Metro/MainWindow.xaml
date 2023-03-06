@@ -9,10 +9,22 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TabControl>
-            <TabItem Header="Térkép">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/MapTileLayer.png" />
+                        <TextBlock>Térkép</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
                 <view:TerkepView/>
             </TabItem>
-            <TabItem Header="Útvonalkeresés">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/AssociationRelationship.png" />
+                        <TextBlock>Útvonalkeresés</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
                 <view:UtvonalView />
             </TabItem>
         </TabControl>

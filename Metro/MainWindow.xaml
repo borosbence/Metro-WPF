@@ -12,6 +12,9 @@
             <TabItem Header="Térkép">
                 <view:TerkepView/>
             </TabItem>
+            <TabItem Header="Útvonalkeresés">
+                <view:UtvonalView />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

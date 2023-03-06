@@ -3,9 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Metro.Views"
+             xmlns:vm="clr-namespace:Metro.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <!--<UserControl.DataContext>
+        <vm:TerkepViewModel />
+    </UserControl.DataContext>-->
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Nagyítás" Click="ZoomPlus_Click" />
@@ -15,7 +18,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto">
             <Canvas x:Name="cnvTerkep" Width="1440" Height="1180" 
-                    Cursor="Hand">
+                    Cursor="Hand" MouseLeftButtonDown="cnvTerkep_MouseLeftButtonDown">
                 <Canvas.LayoutTransform>
                     <ScaleTransform x:Name="st" />
                 </Canvas.LayoutTransform>

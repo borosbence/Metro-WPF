@@ -1,18 +1,11 @@
-﻿using Metro.Models;
-using Metro.Repositories;
+﻿using Metro.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Metro.Views
@@ -22,33 +15,35 @@ namespace Metro.Views
     /// </summary>
     public partial class TerkepView : UserControl
     {
-        private MetroRepository repository = new MetroRepository();
+        private readonly TerkepViewModel viewModel;
         public TerkepView()
         {
             InitializeComponent();
-            DrawRailLines();
+            viewModel = App.Current.Services.GetRequiredService<TerkepViewModel>();
+            DataContext = viewModel;
+            DrawnRailLines();
             DrawMap();
         }
 
         private void DrawMap()
         {
             SolidColorBrush fekete = new SolidColorBrush(Colors.Black);
-            foreach (var allomas in repository.Allomasok)
+            foreach (var allomas in viewModel.Allomasok)
             {
-                Ellipse pont = new Ellipse()
+                Ellipse kor = new Ellipse()
                 {
                     Width = 10,
                     Height = 10,
                     Fill = fekete
                 };
-                Canvas.SetLeft(pont, allomas.X - 5);
-                Canvas.SetTop(pont, allomas.Y - 5);
-                cnvTerkep.Children.Add(pont);
+                Canvas.SetLeft(kor, allomas.X - 5);
+                Canvas.SetTop(kor, allomas.Y - 5);
+                cnvTerkep.Children.Add(kor);
 
                 TextBlock szoveg = new TextBlock()
                 {
                     Text = allomas.AllomasNev,
-                    Width= 100,
+                    Width = 100,
                     TextWrapping = TextWrapping.Wrap
                 };
                 Canvas.SetLeft(szoveg, allomas.X + 5);
@@ -57,12 +52,12 @@ namespace Metro.Views
             }
         }
 
-        private void DrawRailLines()
+        private void DrawnRailLines()
         {
             SolidColorBrush piros = new SolidColorBrush(Colors.Red);
             SolidColorBrush zold = new SolidColorBrush(Colors.Green);
 
-            foreach (var metroVonal in repository.MetroVonalak)
+            foreach (var metroVonal in viewModel.MetroVonalak)
             {
                 for (int i = 0; i < metroVonal.Allomasok.Count; i++)
                 {
@@ -115,6 +110,19 @@ namespace Metro.Views
         {
             st.ScaleX = 1;
             st.ScaleY = 1;
+        }
+
+        private void cnvTerkep_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point pont = e.GetPosition(cnvTerkep);
+
+            foreach (var allomas in viewModel.Allomasok)
+            {
+                if (Math.Abs(allomas.X - pont.X) < 5 && Math.Abs(allomas.Y - pont.Y) < 5)
+                {
+                    viewModel.SendMessage(allomas.AllomasNev);
+                }
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Metro.Repositories
 {
     public class MetroRepository
     {
-        private string _filePath;
+        private readonly string _filePath;
         public List<Vonal> MetroVonalak { get; set; }
         public List<Allomas> Allomasok { get; set; }
 
@@ -61,7 +61,7 @@ namespace Metro.Repositories
             }
         }
 
-        public bool VonalonLetezik(Vonal vonal, string allomas)
+        public bool VonalonLetezik(Vonal vonal, string? allomas)
         {
             // return vonal.Allomasok.Select(x => x.AllomasNev).Contains(allomas);
             return vonal.Allomasok.Any(x => x.Value.AllomasNev == allomas);

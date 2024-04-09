@@ -14,7 +14,7 @@ namespace Metro.ViewModels
         private readonly MetroRepository _repository;
         public List<Vonal> MetroVonalak { get; }
         public List<Allomas> Allomasok { get; }
-        public RelayCommand<string> ZoomCommand { get; }
+        public IRelayCommand<string> ZoomCommand { get; }
 
         private double _zoomX;
         public double ZoomX

@@ -9,8 +9,8 @@ namespace Metro.Repositories
     public class MetroRepository
     {
         private readonly string _filePath;
-        public List<Vonal> MetroVonalak { get; set; }
-        public List<Allomas> Allomasok { get; set; }
+        public List<Vonal> MetroVonalak { get; }
+        public List<Allomas> Allomasok { get; }
 
         public MetroRepository(string filepath = "Data/metro.xlsx")
         {
@@ -51,7 +51,6 @@ namespace Metro.Repositories
                         var allomas = Allomasok.SingleOrDefault(x => x.AllomasNev == allomasNev);
                         if (allomas != null)
                         {
-                            // vonal.Allomasok.Add(allomas);
                             vonal.Allomasok.Add(megalloSzam, allomas);
                             megalloSzam++;
                         }
@@ -63,7 +62,6 @@ namespace Metro.Repositories
 
         public bool VonalonLetezik(Vonal vonal, string? allomas)
         {
-            // return vonal.Allomasok.Select(x => x.AllomasNev).Contains(allomas);
             return vonal.Allomasok.Any(x => x.Value.AllomasNev == allomas);
         }
     }

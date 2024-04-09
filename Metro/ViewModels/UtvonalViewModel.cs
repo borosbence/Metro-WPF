@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Metro.Messages;
 using Metro.Models;
 using Metro.Repositories;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Metro.ViewModels
@@ -11,7 +12,7 @@ namespace Metro.ViewModels
     public class UtvonalViewModel : ObservableObject
     {
         private readonly MetroRepository repository;
-        public ObservableCollection<Allomas> Allomasok { get; }
+        public List<Allomas> Allomasok { get; }
         private string? _indulas;
         public string? Indulas
         {
@@ -25,13 +26,13 @@ namespace Metro.ViewModels
             set { SetProperty(ref _erkezes, value); }
         }
         public ObservableCollection<string> UtvonalTerv { get; }
-        public RelayCommand TervezesCommand { get; }
-        public RelayCommand ResetCommand { get; }
+        public IRelayCommand TervezesCommand { get; }
+        public IRelayCommand ResetCommand { get; }
 
         public UtvonalViewModel()
         {
             repository = new MetroRepository();
-            Allomasok = new ObservableCollection<Allomas>(repository.Allomasok);
+            Allomasok = new List<Allomas>(repository.Allomasok);
             UtvonalTerv = new ObservableCollection<string>();
             TervezesCommand = new RelayCommand(Tervezes);
             ResetCommand = new RelayCommand(Reset);
@@ -67,8 +68,7 @@ namespace Metro.ViewModels
             UtvonalTerv.Add("Érkezés ide: " + Erkezes);
             UtvonalTerv.Add("---");
 
-            bool indulasLetezik, vegLetezik;
-            bool direktVonal = false;
+            bool indulasLetezik, vegLetezik, direktVonal = false;
             foreach (var induloVonal in repository.MetroVonalak)
             {
                 string metroVonal = induloVonal.VonalNev;
@@ -86,10 +86,11 @@ namespace Metro.ViewModels
                     foreach (var vegVonal in repository.MetroVonalak)
                     {
                         vegLetezik = repository.VonalonLetezik(vegVonal, Erkezes);
-                        // Ha megtaláta az egyik vonalon
+                        // Ha megtalálta az egyik vonalon
                         if (vegLetezik)
                         {
-                            // Megkeresi az induló vonalon szerepel e közös átszálló állomás a végvonalon
+                            // TODO: javítás - 1-4es metro vonal esetén
+                            // Megkeresi az induló vonalon szerepel-e közös átszálló állomás a végvonalon
                             foreach (var allomas in vegVonal.Allomasok)
                             {
                                 string allomasNev = allomas.Value.AllomasNev;

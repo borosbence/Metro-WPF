@@ -27,10 +27,10 @@ namespace Metro.Views
 
         private void DrawMap()
         {
-            SolidColorBrush fekete = new SolidColorBrush(Colors.Black);
+            SolidColorBrush fekete = new(Colors.Black);
             foreach (var allomas in viewModel.Allomasok)
             {
-                Ellipse kor = new Ellipse()
+                Ellipse kor = new()
                 {
                     Width = 10,
                     Height = 10,
@@ -40,7 +40,7 @@ namespace Metro.Views
                 Canvas.SetTop(kor, allomas.Y - 5);
                 cnvTerkep.Children.Add(kor);
 
-                TextBlock szoveg = new TextBlock()
+                TextBlock szoveg = new()
                 {
                     Text = allomas.AllomasNev,
                     Width = 100,
@@ -54,8 +54,10 @@ namespace Metro.Views
 
         private void DrawnRailLines()
         {
-            SolidColorBrush piros = new SolidColorBrush(Colors.Red);
-            SolidColorBrush zold = new SolidColorBrush(Colors.Green);
+            SolidColorBrush sarga = new(Colors.Yellow);
+            SolidColorBrush piros = new(Colors.Red);
+            SolidColorBrush sotetkek = new(Colors.DarkBlue);
+            SolidColorBrush zold = new(Colors.Green);
 
             foreach (var metroVonal in viewModel.MetroVonalak)
             {
@@ -68,7 +70,7 @@ namespace Metro.Views
                         int endX = metroVonal.Allomasok.ElementAt(i + 1).Value.X;
                         int endY = metroVonal.Allomasok.ElementAt(i + 1).Value.Y;
 
-                        Line vonal = new Line()
+                        Line vonal = new()
                         {
                             X1 = startX,
                             X2 = endX,
@@ -79,8 +81,14 @@ namespace Metro.Views
 
                         switch (metroVonal.VonalNev)
                         {
+                            case "M1":
+                                vonal.Stroke = sarga;
+                                break;
                             case "M2":
                                 vonal.Stroke = piros;
+                                break;
+                            case "M3":
+                                vonal.Stroke = sotetkek;
                                 break;
                             case "M4":
                                 vonal.Stroke = zold;

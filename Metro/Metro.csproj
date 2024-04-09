@@ -17,6 +17,7 @@
   <ItemGroup>
     <Content Include="Data\metro.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Include="icon.ico" />
     <Resource Include="Images\AssociationRelationship.png" />

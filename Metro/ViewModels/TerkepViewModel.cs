@@ -22,12 +22,14 @@ namespace Metro.ViewModels
             get { return _zoomX; }
             set { SetProperty(ref _zoomX, value); }
         }
+
         private double _zoomY;
         public double ZoomY
         {
             get { return _zoomY; }
             set { SetProperty(ref _zoomY, value); }
         }
+
         private int allomasSzam;
 
         public TerkepViewModel(MetroRepository repository)
@@ -43,8 +45,21 @@ namespace Metro.ViewModels
         {
             zoom = zoom.Replace('.', ',');
             double.TryParse(zoom, out double num);
-            ZoomX = num == 1 ? 1 : ZoomX + num;
-            ZoomY = num == 1 ? 1 : ZoomY + num;
+            if (num == 1)
+            {
+                ZoomX = 1;
+                ZoomY = 1;
+            }
+            else if(ZoomX + num > 0 && ZoomY + num > 0)
+            {
+                ZoomX += num;
+                ZoomY += num;
+            }
+            else
+            {
+                ZoomX = 0.1;
+                ZoomY = 0.1;
+            }
         }
 
         public void SendMessage(string allomasNev)

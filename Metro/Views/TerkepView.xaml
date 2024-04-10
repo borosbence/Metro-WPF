@@ -25,7 +25,7 @@
         </Menu>
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto">
-            <Canvas x:Name="cnvTerkep" Width="1440" Height="1180" 
+            <Canvas x:Name="cnvTerkep" Height="1024" Width="1024"
                     Cursor="Hand" MouseLeftButtonDown="cnvTerkep_MouseLeftButtonDown">
                 <Canvas.LayoutTransform>
                     <ScaleTransform ScaleX="{Binding ZoomX}" ScaleY="{Binding ZoomY}" />

@@ -28,13 +28,16 @@ namespace Metro.Views
         private void DrawMap()
         {
             SolidColorBrush fekete = new(Colors.Black);
+            SolidColorBrush szurke = new(Colors.LightGray);
+            szurke.Opacity = 0.75;
             foreach (var allomas in viewModel.Allomasok)
             {
                 Ellipse kor = new()
                 {
                     Width = 10,
                     Height = 10,
-                    Fill = fekete
+                    Stroke = fekete,
+                    StrokeThickness = 2
                 };
                 Canvas.SetLeft(kor, allomas.X - 5);
                 Canvas.SetTop(kor, allomas.Y - 5);
@@ -43,11 +46,14 @@ namespace Metro.Views
                 TextBlock szoveg = new()
                 {
                     Text = allomas.AllomasNev,
-                    Width = 100,
-                    TextWrapping = TextWrapping.Wrap
+                    MaxWidth = 100,
+                    TextWrapping = TextWrapping.Wrap,
+                    Background = szurke,
+                    FontSize = 8
                 };
                 Canvas.SetLeft(szoveg, allomas.X + 5);
                 Canvas.SetTop(szoveg, allomas.Y + 2);
+                Panel.SetZIndex(szoveg, 3);
                 cnvTerkep.Children.Add(szoveg);
             }
         }

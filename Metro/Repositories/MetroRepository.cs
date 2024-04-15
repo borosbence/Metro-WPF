@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using Metro.Model;
 using Metro.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -58,11 +59,6 @@ namespace Metro.Repositories
                     MetroVonalak.Add(vonal);
                 }
             }
-        }
-
-        public bool VonalonLetezik(Vonal vonal, string? allomas)
-        {
-            return vonal.Allomasok.Any(x => x.Value.AllomasNev == allomas);
         }
     }
 }

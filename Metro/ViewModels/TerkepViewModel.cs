@@ -30,8 +30,6 @@ namespace Metro.ViewModels
             set { SetProperty(ref _zoomY, value); }
         }
 
-        private int allomasSzam;
-
         public TerkepViewModel(MetroRepository repository)
         {
             _repository = repository;
@@ -39,6 +37,7 @@ namespace Metro.ViewModels
             Allomasok = _repository.Allomasok;
             ZoomCommand = new RelayCommand<string>(Zoom);
             ZoomX = 1; ZoomY = 1;
+            induloAllomas = true;
         }
 
         private void Zoom(string zoom)
@@ -55,23 +54,14 @@ namespace Metro.ViewModels
                 ZoomX += num;
                 ZoomY += num;
             }
-            else
-            {
-                ZoomX = 0.1;
-                ZoomY = 0.1;
-            }
         }
 
+        private bool induloAllomas;
         public void SendMessage(string allomasNev)
         {
-            var uzenet = new AllomasMessage(true, allomasNev);
-            allomasSzam++;
-            if (allomasSzam == 2)
-            {
-                uzenet.Indulo = false;
-                allomasSzam = 0;
-            }
+            var uzenet = new AllomasMessage(induloAllomas, allomasNev);
             WeakReferenceMessenger.Default.Send(new AllomasValtozasMessage(uzenet));
+            induloAllomas = !induloAllomas;
         }
     }
 }

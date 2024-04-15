@@ -27,6 +27,9 @@
                       VerticalScrollBarVisibility="Auto">
             <Canvas x:Name="cnvTerkep" Height="1024" Width="1024"
                     Cursor="Hand" MouseLeftButtonDown="cnvTerkep_MouseLeftButtonDown">
+                <!--<Canvas.Background>
+                    <ImageBrush ImageSource="/Images/Budapest_Duna.png"/>
+                </Canvas.Background>-->
                 <Canvas.LayoutTransform>
                     <ScaleTransform ScaleX="{Binding ZoomX}" ScaleY="{Binding ZoomY}" />
                 </Canvas.LayoutTransform>

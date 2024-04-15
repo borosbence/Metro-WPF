@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Metro.Messages;
 using Metro.Models;
 using Metro.Repositories;
+using Metro.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -11,27 +12,31 @@ namespace Metro.ViewModels
 {
     public class UtvonalViewModel : ObservableObject
     {
-        private readonly MetroRepository repository;
+        private readonly MetroRepository _repository;
+
         public List<Allomas> Allomasok { get; }
+
         private string? _indulas;
         public string? Indulas
         {
             get { return _indulas; }
             set { SetProperty(ref _indulas, value); }
         }
+
         private string? _erkezes;
         public string? Erkezes
         {
             get { return _erkezes; }
             set { SetProperty(ref _erkezes, value); }
         }
+
         public ObservableCollection<string> UtvonalTerv { get; }
         public IRelayCommand TervezesCommand { get; }
         public IRelayCommand ResetCommand { get; }
 
-        public UtvonalViewModel()
+        public UtvonalViewModel(MetroRepository repository)
         {
-            repository = new MetroRepository();
+            _repository = repository;
             Allomasok = new List<Allomas>(repository.Allomasok);
             UtvonalTerv = new ObservableCollection<string>();
             TervezesCommand = new RelayCommand(Tervezes);
@@ -64,48 +69,19 @@ namespace Metro.ViewModels
         private void Tervezes()
         {
             UtvonalTerv.Clear();
-            UtvonalTerv.Add("Indulás innen: " + Indulas);
-            UtvonalTerv.Add("Érkezés ide: " + Erkezes);
-            UtvonalTerv.Add("---");
-
-            bool indulasLetezik, vegLetezik, direktVonal = false;
-            foreach (var induloVonal in repository.MetroVonalak)
+            if (string.IsNullOrEmpty(Indulas) || string.IsNullOrEmpty(Erkezes))
             {
-                string metroVonal = induloVonal.VonalNev;
-                indulasLetezik = repository.VonalonLetezik(induloVonal, Indulas);
-                vegLetezik = repository.VonalonLetezik(induloVonal, Erkezes);
-                if (indulasLetezik == true && vegLetezik == true)
-                {
-                    UtvonalTerv.Add("Induljon el átszállás nélkül az " + metroVonal + " vonalon");
-                    direktVonal = true;
-                }
+                UtvonalTerv.Add("Kérem válassza ki az indulási és érkezési állomást!");
+                return;
+            }
+            UtvonalTerv.Add($"Indulás innen: {Indulas}.");
+            UtvonalTerv.Add($"Érkezés ide: {Erkezes}.");
+            UtvonalTerv.Add("------------------------------");
 
-                if (direktVonal == false)
-                {
-                    // Megkeresi a végállomást a vonalak közül
-                    foreach (var vegVonal in repository.MetroVonalak)
-                    {
-                        vegLetezik = repository.VonalonLetezik(vegVonal, Erkezes);
-                        // Ha megtalálta az egyik vonalon
-                        if (vegLetezik)
-                        {
-                            // TODO: javítás - 1-4es metro vonal esetén
-                            // Megkeresi az induló vonalon szerepel-e közös átszálló állomás a végvonalon
-                            foreach (var allomas in vegVonal.Allomasok)
-                            {
-                                string allomasNev = allomas.Value.AllomasNev;
-                                bool vanAtszallas = repository.VonalonLetezik(induloVonal, allomasNev);
-                                if (indulasLetezik && vegLetezik && vanAtszallas)
-                                {
-                                    string vegvonal = vegVonal.VonalNev;
-                                    UtvonalTerv.Add("Induljon el az " + metroVonal + " vonalon");
-                                    UtvonalTerv.Add("szálljon át a(z) " + allomasNev + " állomáson");
-                                    UtvonalTerv.Add("az " + vegvonal + " vonalra");
-                                }
-                            }
-                        }
-                    }
-                }
+            var utvonalak = UtvonalService.Tervezes(_repository.MetroVonalak, Indulas, Erkezes);
+            foreach (string sor in utvonalak)
+            {
+                UtvonalTerv.Add(sor);
             }
         }
     }

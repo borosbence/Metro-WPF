@@ -22,6 +22,7 @@
     <Content Include="icon.ico" />
     <Resource Include="Images\AssociationRelationship.png" />
     <Resource Include="Images\BKV_metro.png" />
+    <Resource Include="Images\Budapest_Duna.png" />
     <Resource Include="Images\CleanData.png" />
     <Resource Include="Images\ConnectArrow.png" />
     <Resource Include="Images\MapTileLayer.png" />

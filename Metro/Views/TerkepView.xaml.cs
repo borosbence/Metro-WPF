@@ -116,6 +116,7 @@ namespace Metro.Views
                 if (Math.Abs(allomas.X - pont.X) < 5 && Math.Abs(allomas.Y - pont.Y) < 5)
                 {
                     viewModel.SendMessage(allomas.AllomasNev);
+                    return;
                 }
             }
         }
